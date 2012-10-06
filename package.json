@@ -1,0 +1,15 @@
+{
+	"name": "funplus",
+	"description": "Manually add runs to Nike+",
+	"version": "0.0.1",
+	"private": true,
+	"dependencies": {
+		"express": "3.x",
+		"request": "2.11.x",
+		"jsontoxml": "0.0.3",
+		"moment": "1.7.x",
+		"form-data": "0.0.4",
+		"libxmljs": "0.6.x",
+		"jsonschema": "0.1.x"
+	}
+}
