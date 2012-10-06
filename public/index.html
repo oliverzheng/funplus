@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>fun+: manually add runs to Nike+</title>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+		<script>
+			$(function() {
+				$('button').click(function() {
+					$.post('/', JSON.stringify({
+						email: 'email@domain.com',
+						password: 'password',
+						date: {
+							year: 2012,
+							month: 10,
+							day: 1,
+							hour: 23,
+							minute: 30
+						},
+						distance: 3,
+						duration: 20
+					}), function(data, textStatus) {
+						console.log(data.success);
+					});
+				});
+			});
+		</script>
+	</head>
+	<body>
+		<button>Submit</button>
+	</body>
+</html>
