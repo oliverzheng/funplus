@@ -1,31 +1,328 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>fun+: manually add runs to Nike+</title>
+		<title>FUN+: manually add runs to Nike+</title>
+		<link href="http://fonts.googleapis.com/css?family=PT+Sans:700" rel="stylesheet" type="text/css">
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 		<script>
 			$(function() {
-				$('button').click(function() {
+				function updateDay() {
+					var date = new Date($('#year').val(), $('#month').val(), $('#day').val());
+					var names = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+					$('#dayOfWeek').text(names[date.getDay()]);
+				}
+				$('#year').change(updateDay);
+				$('#month').change(updateDay);
+				$('#day').change(updateDay);
+
+				function populateDate() {
+					var now = new Date();
+					$('#year').val(now.getFullYear());
+					$('#month').val(now.getMonth());
+					$('#day').val(now.getDate());
+
+					updateDay();
+				}
+				populateDate();
+
+				function getDistance() {
+					var number = $('#distance').val();
+					var unit = $('#unit').val();
+					if (unit === 'miles')
+						number *= 1.60934;
+
+					return number;
+				}
+
+				function getDuration() {
+					var numbers = $('#duration').val().split(':');
+					var seconds = 0;
+					if (numbers[0])
+						seconds += parseInt(numbers[0]);
+
+					if (numbers[1])
+						seconds += 60 * parseInt(numbers[1]);
+
+					if (numbers[2])
+						seconds += 24 * 60 * parseInt(numbers[1]);
+
+					return seconds;
+				}
+
+				var adding = false;
+				$('#submit').click(function() {
+					if (adding)
+						return;
+
+					adding = true;
+
 					$.post('/', JSON.stringify({
-						email: 'email@domain.com',
-						password: 'password',
+						email: $('#email').val(),
+						password: $('#password').val(),
 						date: {
-							year: 2012,
-							month: 10,
-							day: 1,
-							hour: 23,
-							minute: 30
+							year: parseInt($('#year').val()),
+							month: parseInt($('#month').val()),
+							day: parseInt($('#day').val()),
+							hour: 12,
+							minute: 0
 						},
-						distance: 3,
-						duration: 20
+						distance: getDistance(),
+						duration: getDuration()
 					}), function(data, textStatus) {
-						console.log(data.success);
+						adding = false;
+						if (!data.success) {
+							if (data.reason === 'invalid_message') {
+								$('#runData').addClass('error');
+							}
+
+							if (data.reason === 'login_failed') {
+								$('#login').addClass('error');
+							}
+						} else {
+							$('.error').removeClass('error');
+
+							$('#add').addClass('success');
+							$('.clearable').val('');
+
+							setTimeout(function() {
+								$('#add').removeClass('success');
+							}, 2000);
+						}
 					});
+
 				});
 			});
 		</script>
+		<style>
+			html, body {
+				height: 100%;
+				margin: 0;
+				padding: 0;
+			}
+			body {
+				font-family: Helvetica;
+				background: #F3F3F3;
+				text-align: center;
+			}
+			select {
+				border: 0;
+				-webkit-appearance: none;
+				-moz-appearance: none;
+				-ms-appearance: none;
+				-o-appearance: none;
+				appearance: none;
+				border-bottom: 1px dashed black;
+				border-radius: 0;
+				cursor: pointer;
+				font-size: 14px;
+			}
+
+			#content {
+				width: 900px;
+				margin: 100px auto 0 auto;
+				text-align: left;
+			}
+			#content div {
+				width: 190px;
+				float: left;
+				height: 170px;
+				padding: 10px;
+				margin: 10px;
+			}
+			#content div.input {
+				background: #FFF;
+				width: 170px;
+				height: 150px;
+				padding: 20px;
+				box-shadow: 0px 0px 3px 2px #DDD;
+				-webkit-transition: all 0.2s;
+				-moz-transition: all 0.2s;
+				-ms-transition: all 0.2s;
+				-o-transition: all 0.2s;
+				transition: all 0.2s;
+			}
+			#content div.input.error {
+				box-shadow: 0px 0px 3px 2px #F99;
+			}
+			.error .noterror {
+				display: none;
+			}
+			.errorMessage {
+				display: none;
+			}
+			.error .errorMessage {
+				display: block;
+				color: #C66;
+			}
+			input {
+				font-family: Verdana;
+				font-size: 14px;
+				margin: 0;
+			}
+			#login input {
+				width: 98%;
+			}
+			p.small {
+				font-size: 14px;
+				color: #555;
+				line-height: 1.5em;
+			}
+			.center {
+				text-align: center;
+			}
+			#content #logo {
+				width: 170px;
+				border: 0;
+				text-align: right;
+			}
+			#content h1 {
+				font-family: 'PT Sans', sans-serif;
+				text-shadow: 1px 1px 4px #AAA;
+				font-size: 40px;
+				margin: 55px 0 5px 0;
+			}
+			#content #logo p {
+				font-size: 14px;
+				line-height: 1.5em;
+				margin: 0;
+				color: #555;
+			}
+			#add a {
+				color: black;
+				text-decoration: none;
+			}
+			.highlight {
+				color: #CC3025;
+			}
+			h2 {
+				font-size: 20px;
+				margin: 0;
+				font-family: 'PT Sans', sans-serif;
+				font-weight: normal;
+			}
+			#year {
+				width: 25%;
+			}
+			#month, #day {
+				width: 16%;
+			}
+			#year, #month, #day {
+				margin-right: 3px;
+				text-align: right;
+			}
+			#dayOfWeek {
+				color: #555;
+				font-size: 14px;
+			}
+			#distance {
+				text-align: right;
+				width: 70%;
+			}
+			#duration {
+				text-align: right;
+			}
+			#add h1 {
+				cursor: pointer;
+				width: 220px;
+				position: relative;
+			}
+			#add.success h1 {
+				cursor: auto;
+			}
+			.arrows {
+				position: absolute;
+				left: 65px;
+				-webkit-transition: all 0.2s;
+				-moz-transition: all 0.2s;
+				-o-transition: all 0.2s;
+				-ms-transition: all 0.2s;
+				transition: all 0.2s;
+			}
+			.success .arrows {
+				left: 110px;
+			}
+			#add h1:hover .arrows {
+				left: 85px;
+			}
+			#add.success h1:hover .arrows {
+				left: 130px;
+			}
+			.arrows .first, #add h1:hover .fourth {
+				opacity: 0;
+			}
+			.arrows span {
+				width: 20px;
+				display: inline-block;
+				-webkit-transition: all 0.2s;
+				-moz-transition: all 0.2s;
+				-o-transition: all 0.2s;
+				-ms-transition: all 0.2s;
+				transition: all 0.2s;
+			}
+			.arrows .second, #add h1:hover .first {
+				opacity: 0.8;
+			}
+			.arrows .third, #add h1:hover .second {
+				opacity: 0.5;
+			}
+			.arrows .fourth, #add h1:hover .third {
+				opacity: 0.2;
+			}
+			#addedE, #addedD {
+				opacity: 0;
+				-webkit-transition: all 0.2s;
+				-moz-transition: all 0.2s;
+				-o-transition: all 0.2s;
+				-ms-transition: all 0.2s;
+				transition: all 0.2s;
+			}
+			.success #addedE, .success #addedD {
+				display: inline;
+				opacity: 1;
+			}
+			.success #addedD {
+				-webkit-transition-delay: 0.05s;
+				-moz-transition-delay: 0.05s;
+				-o-transition-delay: 0.05s;
+				-ms-transition-delay: 0.05s;
+				transition-delay: 0.05s;
+			}
+		</style>
 	</head>
 	<body>
-		<button>Submit</button>
+		<div id="content">
+			<div id="logo">
+				<h1>FU<span class="highlight">N+</span></h1>
+			</div>
+			<div class="input" id="login">
+				<h2>Nike+ Login</h2>
+				<p><input id="email" class="clearable" type="text" placeholder="Email" /></p>
+				<p><input id="password" class="clearable" type="password" placeholder="Password" /></p>
+				<p class="small center noterror">Your login is not stored.</p>
+				<p class="small center errorMessage">Incorrect login.</p>
+			</div>
+			<div class="input" id="runData">
+				<h2>Run Data</h2>
+				<p>
+					<input id="year" name="year" type="text" placeholder="YYYY" />
+					<input id="month" name="month" type="text" placeholder="MM" />
+					<input id="day" name="day" type="text" placeholder="DD" />
+					<span id="dayOfWeek">Wed</span>
+				</p>
+				<p><input id="duration" class="clearable" type="text" placeholder="Duration (e.g. 20:00)" /></p>
+				<p>
+					<input id="distance" class="clearable" type="text" placeholder="Distance" />
+					<select id="unit">
+						<option value="miles">miles</option>
+						<option value="km">km</option>
+					</select>
+				</p>
+			</div>
+			<div id="add">
+				<h1 id="submit">ADD<span id="addedE">E</span><span id="addedD">D</span>
+					<span class="arrows highlight"><span class="first">&gt;</span><span class="second">&gt;</span><span class="third">&gt;</span><span class="fourth">&gt;</span></span>
+				</h1>
+			</div>
+		</div>
 	</body>
 </html>

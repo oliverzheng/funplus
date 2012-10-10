@@ -75,7 +75,7 @@ app.post('/', function(req, res) {
 	var data = JSON.parse(Object.keys(req.body)[0]);
 	var validation = validate(data, schema);
 	if (validation.length !== 0) {
-		res.json(400, { success: false });
+		res.json({ success: false, reason: 'invalid_message' });
 		return;
 	}
 
@@ -88,7 +88,7 @@ app.post('/', function(req, res) {
 	nikeplus.addRun(email, password, date, duration, distance, function() {
 		res.json({ success: true });
 	}, function(err) {
-		res.json(400, { success: false, reason: err.reason });
+		res.json({ success: false, reason: err.reason });
 	});
 });
 
