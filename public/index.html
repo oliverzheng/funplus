@@ -7,7 +7,10 @@
 		<script>
 			$(function() {
 				function updateDay() {
-					var date = new Date($('#year').val(), $('#month').val(), $('#day').val());
+					var year = parseInt($('#year').val());
+					var month = parseInt($('#month').val()) - 1;
+					var day = parseInt($('#day').val());
+					var date = new Date(year, month, day);
 					var names = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 					$('#dayOfWeek').text(names[date.getDay()]);
 				}
@@ -18,7 +21,7 @@
 				function populateDate() {
 					var now = new Date();
 					$('#year').val(now.getFullYear());
-					$('#month').val(now.getMonth());
+					$('#month').val(now.getMonth() + 1);
 					$('#day').val(now.getDate());
 
 					updateDay();
