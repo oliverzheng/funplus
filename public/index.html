@@ -29,7 +29,7 @@
 				populateDate();
 
 				function getDistance() {
-					var number = $('#distance').val();
+					var number = parseInt($('#distance').val());
 					var unit = $('#unit').val();
 					if (unit === 'miles')
 						number *= 1.60934;
@@ -38,7 +38,7 @@
 				}
 
 				function getDuration() {
-					var numbers = $('#duration').val().split(':');
+					var numbers = $('#duration').val().split(':').reverse();
 					var seconds = 0;
 					if (numbers[0])
 						seconds += parseInt(numbers[0]);
