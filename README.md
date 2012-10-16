@@ -10,6 +10,6 @@ Specifically, Nike+ does not let you add runs manually beyond its Nike+ iPhone
 app or hardware devices. This seems to be an important scenario many.
 
 ![Nike+ users want to manually add
-runs](https://raw.github.com/MTsoul/funplus/master/public/google-search.png)
+runs](https://raw.github.com/oliverzheng/funplus/master/public/google-search.png)
 
 Expecting take down notices in 3, 2, 1...
