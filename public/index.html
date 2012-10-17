@@ -111,7 +111,7 @@
 				padding: 0;
 			}
 			body {
-				font-family: Helvetica;
+				font-family: Helvetica, sans-serif;
 				background: #F3F3F3;
 				text-align: center;
 			}
@@ -300,6 +300,32 @@
 				-ms-transition-delay: 0.05s;
 				transition-delay: 0.05s;
 			}
+
+			.clear {
+				height: 0;
+				overflow: hidden;
+				clear: both;
+				margin: 0;
+				padding: 0;
+				border: 0;
+			}
+
+			#info {
+				line-height: 1.5em;
+				text-align: center;
+				margin-top: 40px;
+				font-size: 12px;
+				color: #333;
+			}
+			#info a {
+				color: #333;
+				text-decoration: none;
+				border-bottom: 1px dashed #AAA;
+			}
+			#info a:hover {
+				color: #000;
+				border-bottom: 1px dashed #777;
+			}
 		</style>
 		<script type="text/javascript">
 			var track = window.location.hash !== '#notrack';
@@ -368,6 +394,11 @@ g=a[f]=[]:f="mixpanel";g.people=g.people||[];h="disable track track_pageview tra
 					<span class="arrows highlight"><span class="first">&gt;</span><span class="second">&gt;</span><span class="third">&gt;</span><span class="fourth">&gt;</span></span>
 				</h1>
 			</div>
+		</div>
+		<hr class="clear" />
+		<div id="info">
+			Questions?<br />
+			<a href="http://twitter.com/oliverzheng">@oliverzheng</a>
 		</div>
 	</body>
 </html>
