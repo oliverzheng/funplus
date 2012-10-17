@@ -81,7 +81,7 @@ app.post('/', function(req, res) {
 
 	var email = data.email;
 	var password = data.password;
-	var date = new Date(data.date.year, data.date.month, data.date.day, data.date.hour, data.date.minute);
+	var date = new Date(data.date.year, data.date.month - 1, data.date.day, data.date.hour, data.date.minute);
 	var duration = data.duration;
 	var distance = data.distance;
 
