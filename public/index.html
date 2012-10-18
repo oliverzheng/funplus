@@ -4,6 +4,7 @@
 		<title>FUN+: manually add runs to Nike+</title>
 		<link href="http://fonts.googleapis.com/css?family=PT+Sans:700" rel="stylesheet" type="text/css">
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+		<script src="scripts/jquery.placeholder.min.js"></script>
 		<script>
 			$(function() {
 				function updateDay() {
@@ -172,6 +173,9 @@
 				margin: 0;
 				box-sizing: border-box;
 			}
+			.placeholder {
+				color: #AAA;
+			}
 			#login input {
 				width: 100%;
 			}
@@ -283,6 +287,7 @@
 			}
 			#addedE, #addedD {
 				opacity: 0;
+				visibility: hidden;
 				-webkit-transition: all 0.2s;
 				-moz-transition: all 0.2s;
 				-o-transition: all 0.2s;
@@ -292,6 +297,7 @@
 			.success #addedE, .success #addedD {
 				display: inline;
 				opacity: 1;
+				visibility: visible;
 			}
 			.success #addedD {
 				-webkit-transition-delay: 0.05s;
@@ -304,6 +310,7 @@
 			.clear {
 				height: 0;
 				overflow: hidden;
+				visibility: hidden;
 				clear: both;
 				margin: 0;
 				padding: 0;
@@ -357,7 +364,11 @@ g=a[f]=[]:f="mixpanel";g.people=g.people||[];h="disable track track_pageview tra
 			}
 		</script>
 		<script>
-			mixpanel.track('Home landing');
+			$(function() {
+				$('input, textarea').placeholder();
+
+				mixpanel.track('Home landing');
+			});
 		</script>
 	</head>
 	<body>
