@@ -2,6 +2,7 @@
 <html>
 	<head>
 		<title>FUN+: manually add runs to Nike+</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 		<link href="http://fonts.googleapis.com/css?family=PT+Sans:700" rel="stylesheet" type="text/css">
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
 		<script src="scripts/jquery.placeholder.min.js"></script>
@@ -113,6 +114,7 @@
 			}
 			body {
 				font-family: Helvetica, sans-serif;
+				font-size: 14px;
 				background: #F3F3F3;
 				text-align: center;
 			}
@@ -127,6 +129,7 @@
 				border-radius: 0;
 				cursor: pointer;
 				font-size: 14px;
+				font-family: Helvetica, sans-serif;
 			}
 
 			#content {
@@ -138,14 +141,14 @@
 			#content div {
 				width: 190px;
 				float: left;
-				height: 170px;
+				height: 155px;
 				padding: 10px;
 				margin: 10px;
 			}
 			#content div.input {
 				background: #FFF;
 				width: 170px;
-				height: 150px;
+				height: 135px;
 				padding: 20px;
 				box-shadow: 0px 0px 3px 2px #DDD;
 				-webkit-transition: all 0.2s;
@@ -236,7 +239,15 @@
 				width: 70%;
 			}
 			#duration {
-				text-align: right;
+				width: 30%;
+			}
+			#distance {
+				width: 30%;
+			}
+			#unit_container {
+				display: inline-block;
+				width: 23%;
+				overflow: hidden;
 			}
 			#add h1 {
 				cursor: pointer;
@@ -323,6 +334,7 @@
 				margin-top: 40px;
 				font-size: 12px;
 				color: #333;
+				padding-bottom: 20px;
 			}
 			#info a {
 				color: #333;
@@ -391,14 +403,19 @@ g=a[f]=[]:f="mixpanel";g.people=g.people||[];h="disable track track_pageview tra
 					<input id="day" name="day" type="text" placeholder="DD" />
 					<span id="dayOfWeek">Wed</span>
 				</p>
-				<p><input id="duration" class="clearable" type="text" placeholder="Duration (e.g. 20:00)" /></p>
 				<p>
-					<input id="distance" class="clearable" type="text" placeholder="Distance" />
-					<select id="unit">
-						<option value="miles">miles</option>
-						<option value="km">km</option>
-					</select>
+					<input id="distance" class="clearable" type="text" placeholder="0.00" />
+					<span id="unit_container">
+						<select id="unit">
+							<option value="miles">miles</option>
+							<option value="km">km</option>
+						</select>
+					</span>
+					in
+					<input id="duration" class="clearable" type="text" placeholder="0:00" />
 				</p>
+				<p class="small center noterror">Distance and duration.</p>
+				<p class="small center errorMessage">Invalid run data.</p>
 			</div>
 			<div id="add">
 				<h1 id="submit">ADD<span id="addedE">E</span><span id="addedD">D</span>
