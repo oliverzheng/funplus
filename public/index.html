@@ -31,7 +31,7 @@
 				populateDate();
 
 				function getDistance() {
-					var number = parseInt($('#distance').val());
+					var number = parseFloat($('#distance').val());
 					var unit = $('#unit').val();
 					if (unit === 'miles')
 						number *= 1.60934;
