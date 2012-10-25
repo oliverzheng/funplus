@@ -9,9 +9,9 @@
 		<script>
 			$(function() {
 				function updateDay() {
-					var year = parseInt($('#year').val());
-					var month = parseInt($('#month').val()) - 1;
-					var day = parseInt($('#day').val());
+					var year = parseInt($('#year').val(), 10);
+					var month = parseInt($('#month').val(), 10) - 1;
+					var day = parseInt($('#day').val(), 10);
 					var date = new Date(year, month, day);
 					var names = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 					$('#dayOfWeek').text(names[date.getDay()]);
@@ -43,13 +43,13 @@
 					var numbers = $('#duration').val().split(':').reverse();
 					var seconds = 0;
 					if (numbers[0])
-						seconds += parseInt(numbers[0]);
+						seconds += parseInt(numbers[0], 10);
 
 					if (numbers[1])
-						seconds += 60 * parseInt(numbers[1]);
+						seconds += 60 * parseInt(numbers[1], 10);
 
 					if (numbers[2])
-						seconds += 24 * 60 * parseInt(numbers[1]);
+						seconds += 24 * 60 * parseInt(numbers[1], 10);
 
 					return seconds;
 				}
@@ -67,9 +67,9 @@
 						email: $('#email').val(),
 						password: $('#password').val(),
 						date: {
-							year: parseInt($('#year').val()),
-							month: parseInt($('#month').val()),
-							day: parseInt($('#day').val()),
+							year: parseInt($('#year').val(), 10),
+							month: parseInt($('#month').val(), 10),
+							day: parseInt($('#day').val(), 10),
 							hour: 12,
 							minute: 0
 						},
