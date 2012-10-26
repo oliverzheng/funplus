@@ -66,6 +66,10 @@ function patchFormData(form, path) {
 };
 
 function uploadRun(pin, date, duration /* in seconds */, distance /* in km */, successCallback, errorCallback) {
+	// Turns out Nike will overwrite an existing run if the dates match.
+	date.setMinutes(Math.floor(Math.random() * 60));
+	date.setSeconds(Math.floor(Math.random() * 60));
+
 	var datetime = moment(date).format('YYYY-MM-DDTHH:mm:ss') + ' GMT00:00';
 
 	var runXml = jsontoxml({
