@@ -63,7 +63,7 @@
 
 					adding = true;
 
-					$.post('/', JSON.stringify({
+					var postData = {
 						email: $('#email').val(),
 						password: $('#password').val(),
 						date: {
@@ -75,20 +75,26 @@
 						},
 						distance: getDistance(),
 						duration: getDuration()
-					}), function(data, textStatus) {
+					};
+					$.post('/', JSON.stringify(postData), function(data, textStatus) {
 						adding = false;
 						if (!data.success) {
-							mixpanel.track('Run failed to add', {
-								reason: data.reason
-							});
+							var params = { reason: data.reason };
 
 							if (data.reason === 'invalid_message') {
 								$('#runData').addClass('error');
+								delete postData.email;
+								delete postData.password;
+								postData.reason = params.reason;
+								params = postData;
 							}
 
 							if (data.reason === 'login_failed') {
 								$('#login').addClass('error');
 							}
+
+							mixpanel.track('Run failed to add', params);
+
 						} else {
 							mixpanel.track('Run successfully added');
 
