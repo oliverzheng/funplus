@@ -59,6 +59,9 @@
 					if (adding)
 						return;
 
+					$('.error').removeClass('error');
+					$('.toofast').removeClass('toofast');
+
 					mixpanel.track('Submitted run');
 
 					adding = true;
@@ -76,6 +79,14 @@
 						distance: getDistance(),
 						duration: getDuration()
 					};
+
+					// 27km/h is the max Nike+ will show runs
+					if ((postData.distance / postData.duration) > (27 / (60 * 60)))
+					{
+						$('#runData').addClass('toofast');
+						return;
+					}
+
 					$.post('/', JSON.stringify(postData), function(data, textStatus) {
 						adding = false;
 						if (!data.success) {
@@ -97,8 +108,6 @@
 
 						} else {
 							mixpanel.track('Run successfully added');
-
-							$('.error').removeClass('error');
 
 							$('#add').addClass('success');
 							$('.clearable').val('');
@@ -163,16 +172,16 @@
 				-o-transition: all 0.2s;
 				transition: all 0.2s;
 			}
-			#content div.input.error {
+			#content div.input.error, #content div.input.toofast {
 				box-shadow: 0px 0px 3px 2px #F99;
 			}
-			.error .noterror {
+			.error .noterror, .toofast .noterror {
 				display: none;
 			}
-			.errorMessage {
+			.errorMessage, .toofastMessage {
 				display: none;
 			}
-			.error .errorMessage {
+			.error .errorMessage, .toofast .toofastMessage {
 				display: block;
 				color: #C66;
 			}
@@ -428,6 +437,7 @@ g=a[f]=[]:f="mixpanel";g.people=g.people||[];h="disable track track_pageview tra
 				</p>
 				<p class="small center noterror">Distance and duration.</p>
 				<p class="small center errorMessage">Invalid run data.</p>
+				<p class="small center toofastMessage">Speed of run is too fast.</p>
 			</div>
 			<div id="add">
 				<h1 id="submit">ADD<span id="addedE">E</span><span id="addedD">D</span>
