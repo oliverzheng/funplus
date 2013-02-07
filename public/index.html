@@ -62,12 +62,16 @@
 					$('.error').removeClass('error');
 					$('.toofast').removeClass('toofast');
 
-					mixpanel.track('Submitted run');
+					var email = $('#email').val();
+					var distance = getDistance();
+					var duration = getDuration();
 
-					adding = true;
+					analytics.identify(email, {
+						email: email
+					});
 
 					var postData = {
-						email: $('#email').val(),
+						email: email,
 						password: $('#password').val(),
 						date: {
 							year: parseInt($('#year').val(), 10),
@@ -76,19 +80,27 @@
 							hour: 12,
 							minute: 0
 						},
-						distance: getDistance(),
-						duration: getDuration()
+						distance: distance,
+						duration: duration
 					};
 
+					analytics.track('Submitted run', {
+						distance: distance,
+						duration: duration
+					});
+
 					// 27km/h is the max Nike+ will show runs
-					if ((postData.distance / postData.duration) > (27 / (60 * 60)))
+					if ((distance / duration) > (27 / (60 * 60)))
 					{
 						$('#runData').addClass('toofast');
 						return;
 					}
 
+					adding = true;
+
 					$.post('/', JSON.stringify(postData), function(data, textStatus) {
 						adding = false;
+
 						if (!data.success) {
 							var params = { reason: data.reason };
 
@@ -104,10 +116,10 @@
 								$('#login').addClass('error');
 							}
 
-							mixpanel.track('Run failed to add', params);
+							analytics.track('Run failed to add', params);
 
 						} else {
-							mixpanel.track('Run successfully added');
+							analytics.track('Run successfully added');
 
 							$('#add').addClass('success');
 							$('.clearable').val('');
@@ -368,39 +380,14 @@
 			}
 		</style>
 		<script type="text/javascript">
-			var track = window.location.hash !== '#notrack';
-			if (!track) {
-				var mixpanel = {
-					track: function() {}
-				};
-			}
-		</script>
-		<script type="text/javascript">
-			var _gaq = _gaq || [];
-			_gaq.push(['_setAccount', 'UA-35457634-1']);
-			_gaq.push(['_setDomainName', 'truehipster.com']);
-			_gaq.push(['_trackPageview']);
-
-			if (track) {
-				(function() {
-				var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-				ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-				var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-				})();
-			}
-		</script>
-		<script type="text/javascript">
-			if (track) {
-				(function(c,a){window.mixpanel=a;var b,d,h,e;b=c.createElement("script");b.type="text/javascript";b.async=!0;b.src=("https:"===c.location.protocol?"https:":"http:")+'//cdn.mxpnl.com/libs/mixpanel-2.1.min.js';d=c.getElementsByTagName("script")[0];d.parentNode.insertBefore(b,d);a._i=[];a.init=function(b,c,f){function d(a,b){var c=b.split(".");2==c.length&&(a=a[c[0]],b=c[1]);a[b]=function(){a.push([b].concat(Array.prototype.slice.call(arguments,0)))}}var g=a;"undefined"!==typeof f?
-g=a[f]=[]:f="mixpanel";g.people=g.people||[];h="disable track track_pageview track_links track_forms register register_once unregister identify name_tag set_config people.identify people.set people.increment".split(" ");for(e=0;e<h.length;e++)d(g,h[e]);a._i.push([b,c,f])};a.__SV=1.1})(document,window.mixpanel||[]);
-				mixpanel.init("4c563ceec1dd848f58ebdc662e00dbe5");
-			}
+			var analytics=analytics||[];analytics.load=function(e){var t=document.createElement("script");t.type="text/javascript",t.async=!0,t.src=("https:"===document.location.protocol?"https://":"http://")+"d2dq2ahtl5zl1z.cloudfront.net/analytics.js/v1/"+e+"/analytics.min.js";var n=document.getElementsByTagName("script")[0];n.parentNode.insertBefore(t,n);var r=function(e){return function(){analytics.push([e].concat(Array.prototype.slice.call(arguments,0)))}},i=["identify","track","trackLink","trackForm","trackClick","trackSubmit","pageview","ab","alias"];for(var s=0;s<i.length;s++)analytics[i[s]]=r(i[s])};
+			analytics.load("jaz8df7z1i");
 		</script>
 		<script>
 			$(function() {
 				$('input, textarea').placeholder();
 
-				mixpanel.track('Home landing');
+				analytics.track('Home landing');
 			});
 		</script>
 	</head>
