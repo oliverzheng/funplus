@@ -98,7 +98,7 @@
 
 					adding = true;
 
-					$.post('/', JSON.stringify(postData), function(data, textStatus) {
+					$.post('/', { data: JSON.stringify(postData)}, function(data, textStatus) {
 						adding = false;
 
 						if (!data.success) {

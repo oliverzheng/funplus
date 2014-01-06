@@ -72,7 +72,12 @@ var schema = {
 
 app.post('/', function(req, res) {
 	// This is so disgusting. Just give me the damn raw data already.
-	var data = JSON.parse(Object.keys(req.body)[0]);
+	try {
+		var data = JSON.parse(req.body.data);
+	} catch (e) {
+		res.json({ success: false, reason: 'invalid_message' });
+		return;
+	}
 	var validation = validate(data, schema);
 	if (validation.length !== 0) {
 		res.json({ success: false, reason: 'invalid_message' });
