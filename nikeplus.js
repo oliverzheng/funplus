@@ -120,8 +120,6 @@ function uploadRun(pin, date, duration /* in seconds */, distance /* in km */, s
 		}),
 	}, function(err, res, body) {
 		if (err || res.statusCode !== 200) {
-			console.log(err);
-			console.log(res.statusCode);
 			errorCallback({
 				reason: 'upload_failure'
 			});
