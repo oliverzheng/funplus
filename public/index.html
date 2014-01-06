@@ -60,7 +60,9 @@
 						return;
 
 					$('.error').removeClass('error');
+					$('.invalid').removeClass('invalid');
 					$('.toofast').removeClass('toofast');
+					$('.nikedown').removeClass('nikedown');
 
 					var email = $('#email').val();
 					var distance = getDistance();
@@ -92,7 +94,7 @@
 					// 27km/h is the max Nike+ will show runs
 					if ((distance / duration) > (27 / (60 * 60)))
 					{
-						$('#runData').addClass('toofast');
+						$('#runData').addClass('error toofast');
 						return;
 					}
 
@@ -102,21 +104,28 @@
 						adding = false;
 
 						if (!data.success) {
-							var params = { reason: data.reason };
+							postData.reason = data.reason;
+							delete postData.password;
 
+							var nikedownReasons = [
+								'no_pin',
+								'connection_error',
+								'upload_failure',
+								'upload_parse',
+								'sync_failure',
+								'sync_parse'
+							];
 							if (data.reason === 'invalid_message') {
-								$('#runData').addClass('error');
-								delete postData.email;
-								delete postData.password;
-								postData.reason = params.reason;
-								params = postData;
+								$('#runData').addClass('error invalid');
+								} else if (nikedownReasons.indexOf(data.reason) !== -1) {
+								$('#runData').addClass('error nikedown');
 							}
 
 							if (data.reason === 'login_failed') {
 								$('#login').addClass('error');
 							}
 
-							analytics.track('Run failed to add', params);
+							analytics.track('Run failed to add', postData);
 
 						} else {
 							analytics.track('Run successfully added');
@@ -184,16 +193,13 @@
 				-o-transition: all 0.2s;
 				transition: all 0.2s;
 			}
-			#content div.input.error, #content div.input.toofast {
+			#content div.input.error, #content div.input.error {
 				box-shadow: 0px 0px 3px 2px #F99;
 			}
-			.error .noterror, .toofast .noterror {
+			.error .noterror, .errorMessage {
 				display: none;
 			}
-			.errorMessage, .toofastMessage {
-				display: none;
-			}
-			.error .errorMessage, .toofast .toofastMessage {
+			.error .loginMessage, .toofast .toofastMessage, .invalid .invalidMessage, .nikedown .nikedownMessage {
 				display: block;
 				color: #C66;
 			}
@@ -401,7 +407,7 @@
 				<p><input id="email" class="clearable" type="text" placeholder="Email" /></p>
 				<p><input id="password" class="clearable" type="password" placeholder="Password" /></p>
 				<p class="small center noterror">Your login is not stored.</p>
-				<p class="small center errorMessage">Incorrect login.</p>
+				<p class="small center loginMessage errorMessage">Incorrect login.</p>
 			</div>
 			<div class="input" id="runData">
 				<h2>Run Data</h2>
@@ -423,8 +429,9 @@
 					<input id="duration" class="clearable" type="text" placeholder="hh:mm:ss" />
 				</p>
 				<p class="small center noterror">Distance and duration.</p>
-				<p class="small center errorMessage">Invalid run data.</p>
-				<p class="small center toofastMessage">Speed of run is too fast.</p>
+				<p class="small center errorMessage invalidMessage">Invalid run data.</p>
+				<p class="small center errorMessage toofastMessage">Speed of run is too fast.</p>
+				<p class="small center errorMessage nikedownMessage">Nike+ is down. Try later?</p>
 			</div>
 			<div id="add">
 				<h1 id="submit">ADD<span id="addedE">E</span><span id="addedD">D</span>
