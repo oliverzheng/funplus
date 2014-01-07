@@ -367,10 +367,15 @@
 				border: 0;
 			}
 
+			.fb-like {
+				margin-top: 30px;
+				height: 50px;
+			}
+
 			#info {
 				line-height: 1.5em;
 				text-align: center;
-				margin-top: 70px;
+				margin-top: 0px;
 				font-size: 12px;
 				color: #333;
 				padding-bottom: 20px;
@@ -398,6 +403,16 @@
 		</script>
 	</head>
 	<body>
+
+		<div id="fb-root"></div>
+		<script>(function(d, s, id) {
+		  var js, fjs = d.getElementsByTagName(s)[0];
+		  if (d.getElementById(id)) return;
+		  js = d.createElement(s); js.id = id;
+		  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
+		  fjs.parentNode.insertBefore(js, fjs);
+		}(document, 'script', 'facebook-jssdk'));</script>
+
 		<div id="content">
 			<div id="logo">
 				<h1>FU<span class="highlight">N+</span></h1>
@@ -440,6 +455,9 @@
 			</div>
 		</div>
 		<hr class="clear" />
+
+		<div class="fb-like" data-href="http://funplus.oliverzheng.com/" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
+
 		<div id="info">
 			Questions?<br />
 			<a href="http://twitter.com/oliverzheng">@oliverzheng</a>
