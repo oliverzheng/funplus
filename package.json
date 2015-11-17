@@ -4,16 +4,16 @@
 	"version": "0.0.1",
 	"private": true,
 	"engines": {
-		"node": "0.10.x",
-		"npm": "1.3.x"
+		"node": "4.2.x",
+		"npm": "2.14.x"
 	},
 	"dependencies": {
 		"express": "3.x",
-		"request": "2.11.x",
+		"request": "2.65.x",
 		"jsontoxml": "0.0.3",
 		"moment": "1.7.x",
 		"form-data": "0.0.4",
-		"libxmljs": "0.8.x",
+		"libxmljs": "0.15.x",
 		"jsonschema": "0.1.x"
 	}
 }
