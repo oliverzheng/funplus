@@ -2,7 +2,7 @@ var request = require('request');
 var jsontoxml = require('jsontoxml');
 var moment = require('moment');
 var FormData = require('form-data');
-var libxmljs = require('libxmljs');
+var libxmljs = require('libxmljs2');
 
 
 var LOGIN_URL = 'https://api.nike.com/nsl/v2.0/user/login?client_id=9dfa1aef96a54441dfaac68c4410e063&client_secret=3cbd1f1908bc1553&app=app&format=json';

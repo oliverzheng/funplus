@@ -13,7 +13,7 @@
 		"jsontoxml": "0.0.3",
 		"moment": "1.7.x",
 		"form-data": "0.0.4",
-		"libxmljs": "0.15.x",
+		"libxmljs2": "0.31.x",
 		"jsonschema": "0.1.x"
 	}
 }
