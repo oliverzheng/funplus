@@ -4,8 +4,7 @@
 	"version": "0.0.1",
 	"private": true,
 	"engines": {
-		"node": "4.2.x",
-		"npm": "2.14.x"
+		"node": "17.9.x"
 	},
 	"dependencies": {
 		"express": "3.x",
